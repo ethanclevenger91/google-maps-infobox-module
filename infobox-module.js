@@ -76,6 +76,8 @@
  */
 function InfoBox(opt_opts) {
 
+  this.extend(InfoBox, google.maps.OverlayView);
+  
   opt_opts = opt_opts || {};
 
   google.maps.OverlayView.apply(this, arguments);
@@ -121,9 +123,17 @@ function InfoBox(opt_opts) {
   this.fixedWidthSet_ = null;
 }
 
+InfoBox.prototype.extend = function(obj1, obj2) {
+  return (function(object) {
+    for (var property in object.prototype) {
+      this.prototype[property] = object.prototype[property];
+    }
+    return this;
+  }).apply(obj1, [obj2]);
+};
+
 /* InfoBox extends OverlayView in the Google Maps API v3.
  */
-InfoBox.prototype = new google.maps.OverlayView();
 
 /**
  * Creates the DIV representing the InfoBox.
